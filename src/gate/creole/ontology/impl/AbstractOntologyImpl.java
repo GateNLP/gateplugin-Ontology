@@ -19,10 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +27,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import gate.creole.Plugin;
+import gate.creole.ResourceReference;
 import org.openrdf.model.vocabulary.XMLSchema;
 
 import gate.creole.AbstractLanguageResource;
@@ -1435,7 +1435,8 @@ public abstract class AbstractOntologyImpl
   /**
    * A method to invoke when a resource's property value is changed
    * 
-   * @param resource
+   * @param resource1
+   * @param resource2
    * @param eventType
    */
   public void fireResourceRelationChanged(OResource resource1,
@@ -1474,7 +1475,7 @@ public abstract class AbstractOntologyImpl
   /**
    * A Method to invoke an event for a removed ontology resource
    * 
-   * @param resource
+   * @param resources
    */
   public void fireOntologyResourcesRemoved(String[] resources) {
     // we need to delete this resource from our maps
@@ -1816,8 +1817,8 @@ public abstract class AbstractOntologyImpl
                 (mapped.length() != 0)) {
               URL location;
               try {
-                location = new URL(mapped);
-              } catch (MalformedURLException ex) {
+                location = new ResourceReference((Plugin) null, mapped).toURL();
+              } catch (URISyntaxException | IOException ex) {
                 throw new GateOntologyException(
                     "Problem creating an URL from the mapping " + mapped +
                     " for ontology import " + anURI, ex);
@@ -1882,8 +1883,8 @@ public abstract class AbstractOntologyImpl
           // making the substitution
           URL location;
           try {
-            location = new URL(anURI.toString());
-          } catch (MalformedURLException ex) {
+            location = new ResourceReference((Plugin)null, anURI.toString()).toURL();
+          } catch (URISyntaxException | IOException ex) {
             throw new GateOntologyException(
                 "Problem creating an URL from the ontology import URI " + anURI, ex);
 
@@ -1981,7 +1982,7 @@ public abstract class AbstractOntologyImpl
   }
 
 
-  public Map<String, String> loadImportMappingsFile(java.net.URL mappingsURL) {
+  public Map<String, String> loadImportMappingsFile(ResourceReference mappingsURL) {
     Map<String, String> mappings = new HashMap<String, String>();
     try {
       // open file and read line by line, each line should have

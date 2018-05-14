@@ -14,6 +14,7 @@
 package gate.creole.ontology.owlim;
 
 import gate.creole.ResourceInstantiationException;
+import gate.creole.ResourceReference;
 import gate.creole.ontology.impl.sesame.*;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
@@ -65,43 +66,43 @@ public class OWLIMOntologyLR
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=1)
   @Override
-  public void setRdfXmlURL(URL theURL) {
+  public void setRdfXmlURL(ResourceReference theURL) {
     rdfXmlURL = theURL;
   }
-  public URL getRdfXmlURL() {
+  public ResourceReference getRdfXmlURL() {
     return rdfXmlURL;
   }
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=2)
   @Override
-  public void setN3URL(URL theURL) {
+  public void setN3URL(ResourceReference theURL) {
     n3URL = theURL;
   }
   @Override
-  public URL getN3URL() {
+  public ResourceReference getN3URL() {
     return n3URL;
   }
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=3)
   @Override
-  public void setNtriplesURL(URL theURL) {
+  public void setNtriplesURL(ResourceReference theURL) {
     ntriplesURL = theURL;
   }
   @Override
-  public URL getNtriplesURL() {
+  public ResourceReference getNtriplesURL() {
     return ntriplesURL;
   }
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=4)
   @Override
-  public void setTurtleURL(URL theURL) {
+  public void setTurtleURL(ResourceReference theURL) {
     turtleURL = theURL;
   }
   @Override
-  public URL getTurtleURL() {
+  public ResourceReference getTurtleURL() {
     return turtleURL;
   }
 
@@ -151,10 +152,10 @@ public class OWLIMOntologyLR
       comment="The URL of a file containing mappings between ontology import URIs and URLs or blank"
       )
   @Override
-  public void setMappingsURL(URL theMappings) {
+  public void setMappingsURL(ResourceReference theMappings) {
     mappingsURL = theMappings;
   }
-  public URL getMappingsURL() {
+  public ResourceReference getMappingsURL() {
     return mappingsURL;
   }
 

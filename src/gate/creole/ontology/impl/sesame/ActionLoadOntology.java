@@ -13,6 +13,7 @@
  */
 package gate.creole.ontology.impl.sesame;
 
+import gate.creole.ResourceReference;
 import gate.gui.MainFrame;
 import gate.util.GateRuntimeException;
 import java.awt.event.ActionEvent;
@@ -52,7 +53,7 @@ class ActionLoadOntology
             if (pane.getLoadImports()) {
               Map<String, String> mappings;
               if (pane.getMappingsFile() != null) {
-                mappings = ontology.loadImportMappingsFile(pane.getMappingsFile().toURI().toURL());
+                mappings = ontology.loadImportMappingsFile(new ResourceReference(pane.getMappingsFile().toURI()));
               } else {
                 mappings = null;
               }

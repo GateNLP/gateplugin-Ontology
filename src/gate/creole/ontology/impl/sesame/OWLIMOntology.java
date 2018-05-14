@@ -17,6 +17,7 @@ import gate.Gate;
 import gate.Resource;
 import gate.creole.ResourceData;
 import gate.creole.ResourceInstantiationException;
+import gate.creole.ResourceReference;
 import gate.creole.metadata.CreoleParameter;
 import gate.creole.metadata.CreoleResource;
 import gate.creole.metadata.Optional;
@@ -72,43 +73,43 @@ public class OWLIMOntology
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=1)
-  public void setRdfXmlURL(URL theURL) {
+  public void setRdfXmlURL(ResourceReference theURL) {
     rdfXmlURL = theURL;
   }
-  public URL getRdfXmlURL() {
+  public ResourceReference getRdfXmlURL() {
     return rdfXmlURL;
   }
-  protected URL rdfXmlURL;
+  protected ResourceReference rdfXmlURL;
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=2)
-  public void setN3URL(URL theURL) {
+  public void setN3URL(ResourceReference theURL) {
     n3URL = theURL;
   }
-  public URL getN3URL() {
+  public ResourceReference getN3URL() {
     return n3URL;
   }
-  protected URL n3URL;
+  protected ResourceReference n3URL;
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=3)
-  public void setNtriplesURL(URL theURL) {
+  public void setNtriplesURL(ResourceReference theURL) {
     ntriplesURL = theURL;
   }
-  public URL getNtriplesURL() {
+  public ResourceReference getNtriplesURL() {
     return ntriplesURL;
   }
-  protected URL ntriplesURL;
+  protected ResourceReference ntriplesURL;
 
   @Optional
   @CreoleParameter(comment="",disjunction="url",priority=4)
-  public void setTurtleURL(URL theURL) {
+  public void setTurtleURL(ResourceReference theURL) {
     turtleURL = theURL;
   }
-  public URL getTurtleURL() {
+  public ResourceReference getTurtleURL() {
     return turtleURL;
   }
-  protected URL turtleURL;
+  protected ResourceReference turtleURL;
 
   @Optional
   @CreoleParameter(comment="Directory that should contain the repository director")
@@ -142,13 +143,13 @@ public class OWLIMOntology
   @CreoleParameter(
       comment="The URL of a file containing mappings between ontology import URIs and URLs or blank"
       )
-  public void setMappingsURL(URL theMappings) {
+  public void setMappingsURL(ResourceReference theMappings) {
     mappingsURL = theMappings;
   }
-  public URL getMappingsURL() {
+  public ResourceReference getMappingsURL() {
     return mappingsURL;
   }
-  protected URL mappingsURL;
+  protected ResourceReference mappingsURL;
 
   @CreoleParameter(
       comment="If the ontology imports specified in the ontology should get automatically loaded",
@@ -210,18 +211,18 @@ public class OWLIMOntology
       // determine ontology file and format to load, if any.
       OntologyFormat ontologyFormat = OConstants.OntologyFormat.RDFXML;
       if(rdfXmlURL != null && rdfXmlURL.toString().trim().length() > 0) {
-        ontologyURL = rdfXmlURL;
+        ontologyURL = rdfXmlURL.toURL();
       }
       else if(ntriplesURL != null && ntriplesURL.toString().trim().length() > 0) {
-        ontologyURL = ntriplesURL;
+        ontologyURL = ntriplesURL.toURL();
         ontologyFormat = OConstants.OntologyFormat.NTRIPLES;
       }
       else if(n3URL != null && n3URL.toString().trim().length() > 0) {
-        ontologyURL = n3URL;
+        ontologyURL = n3URL.toURL();
         ontologyFormat = OConstants.OntologyFormat.N3;
       }
       else if(turtleURL != null && turtleURL.toString().trim().length() > 0) {
-        ontologyURL = turtleURL;
+        ontologyURL = turtleURL.toURL();
         ontologyFormat = OConstants.OntologyFormat.TURTLE;
       }
       else {
@@ -428,15 +429,30 @@ public class OWLIMOntology
 
   public java.net.URL getSourceURL() {
     if(getRdfXmlURL() != null) {
-      return getRdfXmlURL();
+      try {
+        return getRdfXmlURL().toURL();
+      } catch(IOException e) {
+        // ignore
+      }
     } else if(getN3URL() != null) {
-      return getN3URL();
+      try {
+        return getN3URL().toURL();
+      } catch(IOException e) {
+        // ignore
+      }
     } else if(getTurtleURL() != null) {
-      return getTurtleURL();
+      try {
+        return getTurtleURL().toURL();
+      } catch(IOException e) {
+        // ignore
+      }
     } else if(getNtriplesURL() != null) {
-      return getNtriplesURL();
-    } else {
-      return null;
+      try {
+        return getNtriplesURL().toURL();
+      } catch(IOException e) {
+        // ignore
+      }
     }
+    return null;
   }
 }
