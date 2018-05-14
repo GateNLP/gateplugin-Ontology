@@ -48,8 +48,7 @@ public class Test4Develop {
     System.out.println("Starting up");
     Gate.init();
     File pluginHome = 
-        new File(new File(Gate.getGateHome(), "plugins"),
-                 "Ontology");
+        new File(System.getProperty("ontology.plugin.dir"));
     System.out.println("Plugins Home is "+pluginHome.getAbsolutePath());
     Gate.getCreoleRegister().registerDirectories(
             pluginHome.toURI().toURL());

@@ -50,9 +50,8 @@ public class Test_OntoTest1 {
     if(!isInitialized) {
     System.out.println("Inititalizing ...");
     Gate.init();
-    File pluginHome =
-        new File(new File(Gate.getGateHome(), "plugins"),
-                 "Ontology");
+      File pluginHome =
+              new File(System.getProperty("ontology.plugin.dir"));
     System.out.println("Plugin home directory is "+pluginHome.getAbsolutePath());
     Gate.getCreoleRegister().registerDirectories(
             pluginHome.toURI().toURL());
