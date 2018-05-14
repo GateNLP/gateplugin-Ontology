@@ -13,3 +13,6 @@ buildNumber.properties
 
 Ontology.jar
 build/
+TEST-*
+TESTS-*
+junit*
