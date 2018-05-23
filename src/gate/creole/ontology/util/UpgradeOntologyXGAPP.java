@@ -127,7 +127,7 @@ public class UpgradeOntologyXGAPP extends AbstractResource implements ActionsPub
               UpgradeXGAPP.upgrade(doc, upgradePaths);
 
               if(!originalXGapp
-                      .renameTo(new File(originalXGapp.getAbsolutePath() + ".bak"))) {
+                      .renameTo(new File(originalXGapp.getAbsolutePath() + ".onto.bak"))) {
                 System.err.println("unable to back up existing xgapp");
                 return;
               }
