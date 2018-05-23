@@ -43,6 +43,7 @@
 			<maven:dependency groupid="uk.ac.gate" artifactid="gate-core" version="8.5-SNAPSHOT" />
 		</maven:dependencies>
 		<path refid="gate.classpath" classpath="compile" />
+		<path refid="gate.runtime.classpath" classpath="runtime" />
 	</maven:resolve>
 
 	<path id="classpath">
@@ -101,14 +102,19 @@
 		</javadoc>
 	</target>
 
+	<path id="test.classpath">
+		<pathelement location="Ontology.jar" />
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+		<path refid="gate.runtime.classpath" />
+	</path>
+
 	<property name="test.ontology.plugin.dir" location="${basedir}" />
 
 	<target name="testontotest1" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -126,10 +132,7 @@
 
 	<target name="testtuplequery" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -148,10 +151,7 @@
 
 	<target name="testtriplestore" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -171,10 +171,7 @@
 
 	<target name="testontowine" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -193,10 +190,7 @@
 
 	<target name="testowlim" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -215,10 +209,7 @@
 
 	<target name="testw3tests" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
@@ -236,10 +227,7 @@
 
 	<target name="test4develop" depends="jar">
 		<junit fork="true" showoutput="yes" printsummary="yes" maxmemory="${run.memory}">
-			<classpath>
-				<pathelement location="Ontology.jar" />
-				<path refid="classpath" />
-			</classpath>
+			<classpath refid="test.classpath"/>
 			<!-- run headless -->
 			<sysproperty key="java.awt.headless" value="true" />
 			<sysproperty key="ontology.plugin.dir" value="${test.ontology.plugin.dir}" />
