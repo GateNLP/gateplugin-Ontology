@@ -6,6 +6,8 @@
 	<!-- Prevent Ant from warning about includeantruntime not being set -->
 	<property name="build.sysclasspath" value="ignore" />
 
+	<property name="plugin.version" value="8.5-SNAPSHOT" />
+
 	<!-- set global properties for this build -->
 	<property environment="env" />
 	<property file="build.properties" />
@@ -16,6 +18,7 @@
 	<property name="doc" location="doc" />
 	<property name="javadoc.dir" location="${doc}/javadoc" />
 	<property name="jar.location" location="Ontology.jar" />
+	<property name="distro.location" location="gateplugin-Ontology-${plugin.version}.zip" />
 	<property name="build" location="build" />
 	<property name="run.memory" value="1200M" />
 	<property file="log4j.properties" />
@@ -258,6 +261,22 @@
 	<target name="distro.prepare" depends="clean.classes,test.prepare">
 		<!-- do not delete jar -->
 		<delete dir="${build}" />
+	</target>
+
+	<target name="distro" depends="jar">
+		<property name="distro.prefix" value="gateplugin-Ontology-${plugin.version}" />
+		<zip destfile="${distro.location}">
+			<zipfileset prefix="${distro.prefix}"
+					dir="${basedir}">
+				<exclude name="*.zip" />
+				<exclude name="build/**" />
+				<exclude name="Jenkinsfile" />
+				<exclude name="TEST*" />
+				<exclude name="aether-ant-tasks-uber.jar" />
+				<exclude name="*.iml" />
+				<exclude name="junit-*.html" />
+			</zipfileset>
+		</zip>
 	</target>
 
 </project>

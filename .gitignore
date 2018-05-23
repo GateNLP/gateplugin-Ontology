@@ -17,5 +17,6 @@ build/
 TEST-*
 TESTS-*
 junit*
+*.zip
 
 *.iml
