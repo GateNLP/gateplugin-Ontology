@@ -31,5 +31,20 @@ pipeline {
                 }
             }
        }
+       stage('Distro') {
+            when{
+                expression { currentBuild.result != "FAILED" }
+            }
+            steps {
+                withAnt(installation: 'ANT-1.9.7', jdk: 'JDK1.8') {
+                    sh 'ant distro'
+                }
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts:'gateplugin-Ontology-*.zip'
+                }
+            }
+       }
     }
 }
