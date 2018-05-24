@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<CREOLE-DIRECTORY NAME="Ontology" VERSION="8.5-SNAPSHOT" DESCRIPTION="Provides the default GATE ontology implementation">
+<CREOLE-DIRECTORY NAME="Ontology" VERSION="8.5" DESCRIPTION="Provides the default GATE ontology implementation">
       <JAR>lib/owlim-lite-5.4.jar</JAR>
       <JAR>lib/slf4j-api-1.5.6.jar</JAR>
       <JAR>lib/slf4j-jdk14-1.5.6.jar</JAR>

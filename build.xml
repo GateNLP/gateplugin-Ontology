@@ -6,7 +6,7 @@
 	<!-- Prevent Ant from warning about includeantruntime not being set -->
 	<property name="build.sysclasspath" value="ignore" />
 
-	<property name="plugin.version" value="8.5-SNAPSHOT" />
+	<property name="plugin.version" value="8.5" />
 
 	<!-- set global properties for this build -->
 	<property environment="env" />
@@ -43,7 +43,7 @@
 	<!-- build the gate-core classpath via maven -->
 	<maven:resolve>
 		<maven:dependencies>
-			<maven:dependency groupid="uk.ac.gate" artifactid="gate-core" version="8.5-SNAPSHOT" />
+			<maven:dependency groupid="uk.ac.gate" artifactid="gate-core" version="8.5" />
 		</maven:dependencies>
 		<path refid="gate.classpath" classpath="compile" />
 		<path refid="gate.runtime.classpath" classpath="runtime" />
