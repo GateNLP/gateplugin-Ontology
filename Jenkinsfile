@@ -4,6 +4,9 @@ pipeline {
         // rebuild this plugin if gate-top gets rebuilt so we can check we haven't introduced a breaking change
         upstream(upstreamProjects: "gate-top", threshold: hudson.model.Result.SUCCESS)
     }
+    options {
+        disableConcurrentBuilds()
+    }
     stages {
        stage('Build') {
             steps {
