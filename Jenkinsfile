@@ -26,8 +26,6 @@ pipeline {
             }
             post {
                 always {
-                    junit 'TEST-*.xml'
-                    warnings canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']], defaultEncoding: 'UTF-8', excludePattern: "**/test/**", failedNewAll: '0', unstableNewAll: '0', useStableBuildAsReference: true
                 }
                 success {
                     step([$class: 'JavadocArchiver', javadocDir: 'doc/javadoc', keepAll: false])
@@ -50,4 +48,4 @@ pipeline {
             }
        }
     }
-}
+            }
