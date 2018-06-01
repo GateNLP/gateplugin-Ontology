@@ -32,8 +32,6 @@ pipeline {
                 }
             }
        }
-       stage('Distro') {
-            when{
                 expression { currentBuild.result != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
             }
             steps {
