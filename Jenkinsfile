@@ -47,7 +47,7 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts:'gateplugin-LingPipe-*.zip'
+                    archiveArtifacts artifacts:'gateplugin-Ontology-*.zip'
                 }
             }
        }
