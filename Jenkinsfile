@@ -11,7 +11,13 @@ pipeline {
        stage('Build') {
             steps {
                 withAnt(installation: 'ANT-1.9.7', jdk: 'JDK1.8') {
-                    sh 'ant clean build'
+                    sh 'ant clean build test'
+                }
+            }
+            post {
+                always {
+                    warnings canRunOnFailed: true, consoleParsers: [[parserName: 'Java Compiler (javac)']], defaultEncoding: 'UTF-8', excludePattern: "**/test/**", failedNewAll: '0', unstableNewAll: '0', useStableBuildAsReference: true
+                   junit 'TEST-*.xml'
                 }
             }
        }
@@ -21,20 +27,17 @@ pipeline {
             }
             steps {
                 withAnt(installation: 'ANT-1.9.7', jdk: 'JDK1.8') {
-                    sh 'ant test javadoc'
+                    sh 'ant javadoc'
                 }
             }
             post {
-                always {
-                }
                 success {
                     step([$class: 'JavadocArchiver', javadocDir: 'doc/javadoc', keepAll: false])
                 }
             }
-                always {
-                    findbugs canRunOnFailed: true, excludePattern: '**/gate/resources/**', failedNewAll: '0', pattern: '**/findbugsXml.xml', unstableNewAll: '0', useStableBuildAsReference: true
-                }
        }
+       stage('Distro') {
+            when{
                 expression { currentBuild.result != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
             }
             steps {
@@ -44,9 +47,9 @@ pipeline {
             }
             post {
                 success {
-                    archiveArtifacts artifacts:'gateplugin-Ontology-*.zip'
+                    archiveArtifacts artifacts:'gateplugin-LingPipe-*.zip'
                 }
             }
        }
     }
-            }
+}
