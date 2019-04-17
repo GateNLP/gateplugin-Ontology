@@ -23,7 +23,7 @@ pipeline {
        }
        stage('Document') {
             when{
-                expression { currentBuild.result != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
+                expression { currentBuild.currentResult != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
             }
             steps {
                 withAnt(installation: 'ANT-1.9.7', jdk: 'JDK1.8') {
@@ -38,7 +38,7 @@ pipeline {
        }
        stage('Distro') {
             when{
-                expression { currentBuild.result != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
+                expression { currentBuild.currentResult != "FAILED" && currentBuild.changeSets != null && currentBuild.changeSets.size() > 0 }
             }
             steps {
                 withAnt(installation: 'ANT-1.9.7', jdk: 'JDK1.8') {
