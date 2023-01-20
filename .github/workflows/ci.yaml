@@ -110,9 +110,10 @@ jobs:
       - name: Deploy to repo.gate.ac.uk
         if: github.repository == 'GateNLP/gateplugin-Ontology' && github.ref == 'refs/heads/master'
         run: >
-          VERSION=`ls -1 gateplugin-Ontology-*.zip | head -n 1 | sed 's/^gateplugin-Ontology-\(.*\)\.zip/\1/'`
+          ZIPFILE=`ls -1 gateplugin-Ontology-*.zip | head -n 1`
+          VERSION=`echo $ZIPFILE | sed 's/^gateplugin-Ontology-\(.*\)\.zip/\1/'`
 
-          mvn --batch-mode deploy:deploy-file -Dfile=gateplugin-Ontology-*.zip
+          mvn --batch-mode deploy:deploy-file -Dfile=$ZIPFILE
           -DrepositoryId=gate.snapshots -Durl=https://repo.gate.ac.uk/content/repositories/snapshots
           -DgroupId=uk.ac.gate.plugins -DartifactId=gateplugin-Ontology -Dversion=$VERSION
           -Dpackaging=zip
