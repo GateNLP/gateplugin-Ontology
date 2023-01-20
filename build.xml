@@ -6,7 +6,7 @@
 	<!-- Prevent Ant from warning about includeantruntime not being set -->
 	<property name="build.sysclasspath" value="ignore" />
 
-	<property name="plugin.version" value="8.5-SNAPSHOT" />
+	<property name="plugin.version" value="8.6-SNAPSHOT" />
 
 	<!-- set global properties for this build -->
 	<property environment="env" />
@@ -101,7 +101,7 @@
 		<javadoc access="protected" destdir="${javadoc.dir}" classpathref="classpath" Encoding="UTF-8" Use="yes" Windowtitle="GATE Ontology plugin JavaDoc" docencoding="UTF-8" charset="UTF-8" source="1.8" breakiterator="true">
 			<fileset dir="${src}" />
 			<link href="http://docs.oracle.com/javase/8/docs/api/" />
-			<link href="http://gate.ac.uk/gate/doc/javadoc/" />
+			<link href="https://gatenlp.github.io/gate-core/apidocs/" />
 		</javadoc>
 	</target>
 
