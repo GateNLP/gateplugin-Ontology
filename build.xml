@@ -276,7 +276,7 @@
 					dir="${basedir}">
 				<exclude name="*.zip" />
 				<exclude name="build/**" />
-				<exclude name="Jenkinsfile" />
+				<exclude name=".github/**" />
 				<exclude name="TEST*" />
 				<exclude name="aether-ant-tasks-uber.jar" />
 				<exclude name="*.iml" />
