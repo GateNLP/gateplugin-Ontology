@@ -1,0 +1,121 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  checks: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Master Branch
+        uses: actions/checkout@v2
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'zulu'
+          cache: maven
+
+      # Override http://repo.gate.ac.uk to use https:// instead
+      - name: Configure Maven settings
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          mirrors: >
+            [
+              {
+                "id": "gate.ac.uk-https",
+                "name": "GATE repo (secure)",
+                "mirrorOf": "gate.ac.uk",
+                "url": "https://repo.gate.ac.uk/content/groups/public/"
+              }
+            ]
+          repositories: >
+            [
+              {
+                "id": "central",
+                "name": "Maven Central",
+                "url": "https://repo1.maven.org/maven2",
+                "releases": {
+                  "enabled": "true"
+                },
+                "snapshots": {
+                  "enabled": "false"
+                }
+              }
+            ]
+          plugin_repositories: > 
+            [
+              {
+                "id": "central",
+                "name": "Maven Central",
+                "url": "https://repo1.maven.org/maven2",
+                "releases": {
+                  "enabled": "true"
+                },
+                "snapshots": {
+                  "enabled": "false"
+                }
+              }
+            ]
+          servers: >
+            [
+              {
+                "id": "gate.snapshots",
+                "username": "${{ secrets.GATE_REPO_USERNAME }}",
+                "password": "${{ secrets.GATE_REPO_PASSWORD }}"
+              }
+            ]
+
+      - name: Build with Ant
+        run: ant clean build test
+
+      - name: Publish Test Report
+        uses: scacap/action-surefire-report@v1
+        with:
+          report_paths: TEST-*.xml
+          fail_if_no_tests: false
+          
+      - name: Build JavaDoc documentation
+        run: ant javadoc
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: 'doc/javadoc'
+
+      - name: Build distribution
+        run: ant distro
+
+      - name: Deploy to repo.gate.ac.uk
+        if: github.repository == 'GateNLP/gateplugin-Ontology' && github.ref == 'refs/heads/master'
+        run: >
+          VERSION=`ls -1 gateplugin-Ontology-*.zip | head -n 1 | sed 's/^gateplugin-Ontology-\(.*\)\.zip/\1/'`
+
+          mvn --batch-mode deploy:deploy-file -Dfile=gateplugin-Ontology-*.zip
+          -DrepositoryId=gate.snapshots -Durl=https://repo.gate.ac.uk/content/repositories/snapshots
+          -DgroupId=uk.ac.gate.plugins -DartifactId=gateplugin-Ontology -Dversion=$VERSION
+          -Dpackaging=zip
+
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy JavaDoc to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
