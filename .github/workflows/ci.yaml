@@ -28,7 +28,14 @@ jobs:
         with:
           java-version: '8'
           distribution: 'zulu'
-          cache: maven
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/build.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
       # Override http://repo.gate.ac.uk to use https:// instead
       - name: Configure Maven settings
@@ -109,6 +116,14 @@ jobs:
           -DrepositoryId=gate.snapshots -Durl=https://repo.gate.ac.uk/content/repositories/snapshots
           -DgroupId=uk.ac.gate.plugins -DartifactId=gateplugin-Ontology -Dversion=$VERSION
           -Dpackaging=zip
+
+
+      # We want to avoid cacheing -SNAPSHOT dependencies from our local maven
+      # cache, to ensure that we always go out and check for them again at the
+      # next build in case they have changed.
+      - name: Delete snapshots from m2 repository
+        if: always()
+        run: find ~/.m2/repository -name \*-SNAPSHOT -type d -exec rm -rf {} \+
 
 
   publish:
